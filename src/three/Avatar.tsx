@@ -12,7 +12,7 @@ const lerp = THREE.MathUtils.lerp;
 
 export const Avatar = forwardRef<THREE.Group>(function Avatar(_props, ref) {
   const local = useRef<THREE.Group>(null!);
-  const { scene } = useGLTF("/model.glb");
+  const { scene } = useGLTF(`${import.meta.env.BASE_URL}model.glb`);
   const headRef = useRef<THREE.Object3D | null>(null);
   const s = useMemo(() => ({ yaw: 0, pitch: 0 }), []);
 
@@ -56,4 +56,4 @@ export const Avatar = forwardRef<THREE.Group>(function Avatar(_props, ref) {
   );
 });
 
-useGLTF.preload("/model.glb");
+useGLTF.preload(`${import.meta.env.BASE_URL}model.glb`);
