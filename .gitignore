@@ -1,0 +1,15 @@
+.vscode/
+node_modules/
+dist/
+*.local
+.DS_Store
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Root-level GLB scratch copies (the used ones live in public/)
+/*.glb
+
+# tsc artifacts from composite build
+vite.config.js
+vite.config.d.ts
