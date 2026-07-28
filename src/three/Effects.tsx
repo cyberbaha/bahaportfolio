@@ -4,13 +4,23 @@ import {
   Vignette,
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
+import { isMobileDevice } from "../lib/useIsMobile";
 
-/**
- * Restrained cinematic post: a little bloom on the amber/teal highlights and a
- * vignette to darken the edges and focus center. Over-bloomed reads cheap, so
- * the threshold is kept high and the intensity low.
- */
+const mobile = isMobileDevice();
+
 export function Effects() {
+  if (mobile) {
+    return (
+      <EffectComposer multisampling={0}>
+        <Vignette
+          offset={0.28}
+          darkness={0.72}
+          blendFunction={BlendFunction.NORMAL}
+        />
+      </EffectComposer>
+    );
+  }
+
   return (
     <EffectComposer multisampling={4}>
       <Bloom

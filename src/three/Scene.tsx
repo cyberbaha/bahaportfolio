@@ -6,6 +6,9 @@ import { Avatar } from "./Avatar";
 import { Lighting } from "./Lighting";
 import { Effects } from "./Effects";
 import { rig } from "./cameraRig";
+import { isMobileDevice } from "../lib/useIsMobile";
+
+const mobile = isMobileDevice();
 
 /**
  * Applies the scroll-driven rig to the camera and avatar every frame, layers
@@ -70,7 +73,7 @@ export function Scene() {
 
       <Canvas
         shadows
-        dpr={[1, 2]}
+        dpr={mobile ? [1, 1.5] : [1, 2]}
         gl={{
           alpha: true,
           antialias: true,
@@ -87,15 +90,16 @@ export function Scene() {
           <Avatar ref={avatarRef} />
           <RigUpdater avatar={avatarRef} />
 
-          {/* Soft contact shadow grounds the figure without a visible floor */}
-          <ContactShadows
-            position={[0, -1.44, 0]}
-            opacity={0.55}
-            scale={10}
-            blur={2.6}
-            far={4}
-            color="#000000"
-          />
+          {mobile ? null : (
+            <ContactShadows
+              position={[0, -1.44, 0]}
+              opacity={0.55}
+              scale={10}
+              blur={2.6}
+              far={4}
+              color="#000000"
+            />
+          )}
 
           <Effects />
         </Suspense>

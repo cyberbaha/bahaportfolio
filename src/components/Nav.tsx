@@ -15,8 +15,8 @@ const LINKS = [
 
 export function Nav() {
   const [active, setActive] = useState("hero");
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Scrollspy: one trigger per section flips the active link.
   useEffect(() => {
     const triggers = LINKS.map(({ id }) =>
       ScrollTrigger.create({
@@ -29,6 +29,11 @@ export function Nav() {
     return () => triggers.forEach((t) => t.kill());
   }, []);
 
+  const handleClick = (id: string) => {
+    setMenuOpen(false);
+    scrollToSection(`#${id}`);
+  };
+
   return (
     <nav className="nav">
       <a
@@ -36,11 +41,12 @@ export function Nav() {
         href="#hero"
         onClick={(e) => {
           e.preventDefault();
-          scrollToSection("#hero");
+          handleClick("hero");
         }}
       >
         BS<span>//</span>
       </a>
+
       <div className="nav-links">
         {LINKS.map(({ id, label }) => (
           <a
@@ -49,12 +55,40 @@ export function Nav() {
             href={`#${id}`}
             onClick={(e) => {
               e.preventDefault();
-              scrollToSection(`#${id}`);
+              handleClick(id);
             }}
           >
             {label}
           </a>
         ))}
+      </div>
+
+      <button
+        className={`hamburger${menuOpen ? " open" : ""}`}
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label="Toggle menu"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
+        <div className="mobile-menu-links">
+          {LINKS.map(({ id, label }) => (
+            <a
+              key={id}
+              className={`mobile-nav-link${active === id ? " active" : ""}`}
+              href={`#${id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleClick(id);
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
       </div>
     </nav>
   );
